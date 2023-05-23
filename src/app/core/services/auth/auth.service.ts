@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observer} from "rxjs";
 import {Country} from "../../../shared/data/country";
-import {ICountry, IProfile, ISignUp, IUser} from "../../models/auth.model";
+import {ICountry, IProfile, IResponseAuth, ISignUp, IToken, IUser} from "../../models/auth.model";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthComponent} from "../../../shared/components/auth/auth.component";
+import {ApiService} from "../api/api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,14 @@ export class AuthService {
   public profile$: BehaviorSubject<Partial<ISignUp|null>>;
 
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, public ApiService: ApiService) {
     this.dialogIsOpen$ = new BehaviorSubject<boolean>(false)
     this.isLogin$ = new BehaviorSubject<boolean>(true)
     this.textBorder$ = new BehaviorSubject<string>(this.borderLineLogin)
     this.citizenship$ = new BehaviorSubject<ICountry[]>(Country)
-    this.isAuth$ = new BehaviorSubject<boolean>(false);
     this.firstName$ = new BehaviorSubject<string | null | undefined>(null);
-    this.profile$ = new BehaviorSubject<Partial<ISignUp|null>>(null)
+    this.isAuth$ = this.ApiService.isAuth$;
+    this.profile$ = this.ApiService.profile$
     this.checkAuth()
   }
 
@@ -51,10 +52,18 @@ export class AuthService {
   }
   onSaveToLocalStorage(profile: Partial<ISignUp>){
   if(profile){
-    localStorage.setItem('profile', JSON.stringify(profile));
-    this.profile$.next(profile)
-    this.onSaveToLocalStorageAuth()
-    this.dialog.closeAll();
+      this.ApiService.onSignIn(profile as ISignUp).subscribe((res)=>{
+        if(res.token){
+          this.ApiService.token$.next(res.token)
+          localStorage.setItem('token', JSON.stringify(res.token))
+          this.dialog.closeAll();
+          this.ApiService.checkAuth()
+        }
+    },
+        (error)=>{
+          this.ApiService.errors$.next(error.error.message)
+        }
+        )
   }
   }
 
@@ -65,12 +74,19 @@ export class AuthService {
 
   onLogin(user: Partial<IUser>){
     if(user){
-      if(this.profile$.value?.email === user.email && this.profile$.value?.password === user.password){
-       this.isAuth$.next(true)
         // @ts-ignore
-        this.firstName$.next(this.profile$.value?.firstName)
-        this.dialog.closeAll();
-      }
+      this.ApiService.Login(user as IUser).subscribe(res=>{
+        if(res.token){
+              // @ts-ignore
+          this.ApiService.token$.next(res.token as IToken)
+          localStorage.setItem('token', JSON.stringify(res.token))
+          this.dialog.closeAll()
+          this.ApiService.checkAuth()
+        }
+          },
+        error => {
+          this.ApiService.errors$.next(error.error.message)
+        })
     }
   }
 
@@ -88,6 +104,6 @@ export class AuthService {
   }
   onLogout(){
     this.isAuth$.next(false)
-    localStorage.removeItem('auth')
+    localStorage.removeItem('token')
   }
 }

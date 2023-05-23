@@ -35,7 +35,7 @@ export class BookingPassengersComponent implements OnInit {
       infant: 0,
     },
   };
-  
+
   public passengers = Object.entries(this.step1Obj.passengers);
   public arrayForms: any[] = [];
 
@@ -52,7 +52,6 @@ export class BookingPassengersComponent implements OnInit {
   ngOnInit(): void {
     this.transformPass();
     this.createForm();
-    console.log(this.arrayForms);
   }
 
   transformPass() {

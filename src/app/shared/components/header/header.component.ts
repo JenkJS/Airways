@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {FormControl, ValidationErrors} from '@angular/forms';
 import { ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject, pipe, filter } from 'rxjs';
-import { AuthService } from '../../../core';
+import {ApiService, AuthService, IResponseAuth, ISignUp} from '../../../core';
 import { LocationService } from 'src/app/core/services/location/location.service';
 import { Router, NavigationEnd } from '@angular/router';
 @Component({
@@ -14,18 +14,19 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit {
   isOpen$!: BehaviorSubject<boolean>;
   isAuth$!: BehaviorSubject<boolean>;
-  firstName$!: BehaviorSubject<string | null | undefined>;
+  firstName$!: BehaviorSubject<Partial<(string | (ValidationErrors | null)[])[] | null | undefined>>;
   currentPath!: string;
 
   constructor(
     private AuthService: AuthService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private ApiService: ApiService
   ) {}
 
   ngOnInit(): void {
     this.isOpen$ = this.AuthService.dialogIsOpen$;
     this.isAuth$ = this.AuthService.isAuth$;
-    this.firstName$ = this.AuthService.firstName$;
+    this.firstName$ = this.ApiService.firstName$;
     this.locationService.currentLocation.subscribe((path)=> this.currentPath = path)
   }
 

@@ -4,10 +4,10 @@
     <mat-button-toggle class="nav-button" value="sign"(click)="onSwitch(false)">Sign up</mat-button-toggle>
   </mat-button-toggle-group>
   <div class="social-wrapper">
-    <button mat-button class="soc-btn" >
+    <button mat-button class="soc-btn" (click)="onLoginWithGoogleLogin()" >
       <img src="./assets/images/google_24px.svg">
       Continue with Google</button>
-    <button mat-button class="soc-btn" >
+    <button mat-button class="soc-btn" (click)=" onLoginWithFacebookLogin()">
       <img src="./assets/images/facebbok_24px.svg">
       Continue with Facebook</button>
   </div>
@@ -20,12 +20,18 @@
          [formGroup]="formGroupLogin" (submit)="onSubmitLogin()">
      <mat-form-field class="form-field">
        <mat-label class="label-form">Email</mat-label >
-       <input matInput class="input-form" formControlName="email">
+       <input matInput class="input-form" formControlName="email" placeholder="Ex. pat@example.com">
+       <mat-error *ngIf="!email!.valid">
+         {{account_validation_messages.email.correct}}
+       </mat-error>
      </mat-form-field>
      <mat-form-field class="form-field" >
        <mat-label class="label-form">Password</mat-label>
        <input  class="input-form" matInput type="Password" formControlName="password">
      </mat-form-field>
+     <mat-error *ngIf="errors$ | async">
+       {{errors$.value}}
+     </mat-error>
      <div class="forgot">Forgot password?</div>
      <button mat-raised-button color="primary">Log in</button>
    </form>
@@ -60,14 +66,14 @@
     </mat-form-field>
     <mat-form-field class="form-field form-field-bday"   appearance="fill">
       <mat-label class="label-form">Date of birth</mat-label>
-      <input matInput  class="input-form"  [matDatepicker]="formGroupSign" formControlName="bDay" />
-      <mat-error *ngIf="!bDay!.valid">
+      <input matInput  class="input-form"  [matDatepicker]="formGroupSign" formControlName="dateOfBirth" />
+      <mat-error *ngIf="!dateOfBirth!.valid">
         {{account_validation_messages.bDay.message}}
       </mat-error>
       <mat-datepicker-toggle matSuffix [for]="formGroupSign"></mat-datepicker-toggle>
       <mat-datepicker #formGroupSign></mat-datepicker>
     </mat-form-field>
-    <mat-button-toggle-group class="sex-wrapper" formControlName="sex">
+    <mat-button-toggle-group class="sex-wrapper" formControlName="gender">
       <mat-button-toggle class="nav-button" value="Male">Male</mat-button-toggle>
       <mat-button-toggle class="nav-button" value="Female">
         Female</mat-button-toggle>
@@ -109,6 +115,9 @@
         {{account_validation_messages.agreement.message}}
       </mat-error>
     </mat-checkbox>
+    <mat-error *ngIf="errors$ | async">
+      {{errors$.value}}
+    </mat-error>
 
     <button mat-raised-button color="primary" type="submit" >Sign up</button>
   </form>

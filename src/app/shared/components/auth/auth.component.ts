@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService, ISignUp, IUser, ICountry} from "../../../core/index";
+import {AuthService, ISignUp, IUser, ICountry, ApiService} from "../../../core/index";
 import {BehaviorSubject} from "rxjs";
 import {FormBuilder, Validators} from "@angular/forms";
 
@@ -14,13 +14,15 @@ export class AuthComponent implements OnInit {
   textBorder$!: BehaviorSubject<string>;
   citizenship$!: BehaviorSubject<ICountry[]>
   isAuth$!: BehaviorSubject<boolean>
+  errors$! :BehaviorSubject<string | null>
   ngOnInit(): void {
     this.isLogin$ = this.AuthService.isLogin$
     this.textBorder$ = this.AuthService.textBorder$
     this.citizenship$ = this.AuthService.citizenship$
     this.isAuth$ = this.AuthService.isAuth$
+    this.errors$ = this.ApiService.errors$
   }
-  constructor(private AuthService: AuthService, private formBuilder: FormBuilder) {
+  constructor(private AuthService: AuthService, private formBuilder: FormBuilder, private ApiService: ApiService) {
   }
 
   account_validation_messages = {
@@ -39,8 +41,8 @@ export class AuthComponent implements OnInit {
       password: ['', [Validators.required]],
       firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
-      bDay: ['', [Validators.required]],
-      sex: [''],
+      dateOfBirth: ['', [Validators.required]],
+      gender: [''],
       countryCode: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       citizenship:['', [Validators.required]],
@@ -56,6 +58,35 @@ export class AuthComponent implements OnInit {
   get email() {
     return this.formGroupSignUp.get('email');
   }
+  onLoginWithGoogle(){
+    // @ts-ignore
+    this.formGroupSignUp.controls['email'].setValue('email@google.com');
+  }
+
+  onLoginWithGoogleLogin(){
+    // @ts-ignore
+    this.formGroupLogin.controls['email'].setValue('email@google.com');
+    // @ts-ignore
+
+    this.formGroupSignUp.controls['email'].setValue('email@google.com');
+
+  }
+
+
+  onLoginWithFacebook(){
+    // @ts-ignore
+    this.formGroupSignUp.controls['email'].setValue('email@facebook.com');
+  }
+
+  onLoginWithFacebookLogin(){
+    // @ts-ignore
+    this.formGroupLogin.controls['email'].setValue('email@facebook.com');
+    // @ts-ignore
+
+    this.formGroupSignUp.controls['email'].setValue('email@facebook.com');
+
+  }
+
   get password() {
     return this.formGroupSignUp.get('password');
   }
@@ -65,11 +96,11 @@ export class AuthComponent implements OnInit {
   get lastName() {
     return this.formGroupSignUp.get('lastName');
   }
-  get bDay() {
-    return this.formGroupSignUp.get('bDay');
+  get dateOfBirth() {
+    return this.formGroupSignUp.get('dateOfBirth');
   }
-  get sex() {
-    return this.formGroupSignUp.get('sex');
+  get gender() {
+    return this.formGroupSignUp.get('gender');
   }
   get countryCode() {
     return this.formGroupSignUp.get('countryCode');
@@ -85,6 +116,7 @@ export class AuthComponent implements OnInit {
   }
   onSubmit() {
     if(this.formGroupSignUp.valid){
+      // @ts-ignore
       this.AuthService.onSaveToLocalStorage(this.formGroupSignUp.value)
     }
   }

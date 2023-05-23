@@ -18,13 +18,11 @@ export class JourneyFlightsComponent implements  OnInit{
 
 
   constructor(private ApiService: ApiService) {
-    console.log(this.flight)
   }
 
   ngOnInit(): void {
-    console.log(this.flight)
   }
- 
+
 
   public onSelectTrip() {
     this.onSelectTripEvent.emit();
