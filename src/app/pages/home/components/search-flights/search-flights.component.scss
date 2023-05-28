@@ -1,4 +1,5 @@
 .home-form {
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -236,8 +237,60 @@
 
 .errorBorderBottom {
   border-bottom: 0.1em solid var(--mdc-theme-error, #f44336);
+
+  mat-label {
+    color: red;
+  }
 }
 
 .errorTextColor {
   color: var(--mdc-theme-error, #f44336);
+}
+
+.flexDirectionRow {
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.home-form__submit-booking {
+  position: absolute;
+  top: -75px;
+  right: 0;
+  button {
+    background-color: rgb(17, 57, 126);
+    color: #f4f6f9;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.widthFull {
+  width: 100%;
+}
+
+.marginRight20 {
+  margin-right: 20px;
+}
+
+.flexWidthAuto {
+  flex: 1 1 auto;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
+
+.matFormWidth255px {
+  max-width: 255px;
+}
+
+.paramsFormFieldWidth {
+  .mat-mdc-form-field {
+    width: 100%;
+  }
 }

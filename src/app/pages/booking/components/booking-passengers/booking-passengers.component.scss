@@ -113,12 +113,10 @@
   z-index: 0 !important;
 }
 
-
-.bookingPassengersLabelSelected{
+.bookingPassengersLabelSelected {
   margin-left: 2px;
   color: rgba(16, 38, 76, 1);
 }
-
 
 .invalidFields {
   border-bottom: 1px solid red;
@@ -173,4 +171,8 @@
   line-height: 16px;
   letter-spacing: 0.4px;
   max-width: 211px;
+}
+
+.noBorder{
+  border: 0 !important;
 }

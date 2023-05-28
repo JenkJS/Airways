@@ -1,22 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ViewEncapsulation } from '@angular/core';
 import { Country } from 'src/app/shared/data/country';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DateTypeService } from 'src/app/core/services/date-type/date-type.service';
+import {
+  ApiService,
+  IAirports,
+  SearchFlightsStateService,
+  SliderService,
+} from '../../../../core';
+import { BehaviorSubject } from 'rxjs';
+
+import {
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
   styleUrls: ['./search-flights.component.scss'],
   encapsulation: ViewEncapsulation.None,
+
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: MAT_DATE_FORMATS, useValue: DateTypeService.MY_DATA_FORMATS},
+  ],
 })
 export class SearchFlightsComponent implements OnInit {
-  ngOnInit(): void {}
+  public airports$!: BehaviorSubject<IAirports[] | null>;
+  @Input() isBookingPage!: boolean;
 
   searchForm = new FormGroup({
     tripType: new FormControl<string>('roundTrip', [Validators.required]),
-    from: new FormControl<string>('', [Validators.required]),
-    dest: new FormControl<string>('', [Validators.required]),
+    from: new FormControl<IAirports | null>(null, [Validators.required]),
+    dest: new FormControl<IAirports | null>(null, [Validators.required]),
     date: new FormGroup({
       singleDate: new FormControl<string>('', []),
       startDate: new FormControl<string>(''),
@@ -42,7 +71,7 @@ export class SearchFlightsComponent implements OnInit {
   isPlaceBlocksReverse = false;
   isOneWay = false;
   isDate = false;
-  isPassengers = false;
+  isPassengers!: boolean;
   wasPassOptionsBlockOpen = false;
 
   minDate = new Date();
@@ -53,7 +82,19 @@ export class SearchFlightsComponent implements OnInit {
     ['Minsk', 'MNSK'],
   ];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private ApiService: ApiService,
+    private sliderService: SliderService,
+    private searchFlightsStateService: SearchFlightsStateService
+  ) {}
+
+  ngOnInit(): void {
+    this.ApiService.getAirports();
+    this.airports$ = this.ApiService.airports$;
+    this.changeCalendarOnBookingPage();
+  }
 
   get adult() {
     return this.searchForm.value.passengers?.adult;
@@ -76,18 +117,49 @@ export class SearchFlightsComponent implements OnInit {
   get endDate() {
     return this.searchForm.value.date?.endDate;
   }
+  get totalPassengers(): number {
+    return (
+      this.passengers.adult + this.passengers.child + this.passengers.infant
+    );
+  }
 
   formSubmit() {
+    this.wasPassOptionsBlockOpen = true;
     let formObject = { ...this.searchForm.value };
 
     if (this.isPlaceBlocksReverse) {
-      formObject.from = this.searchForm.value.dest;
-      formObject.dest = this.searchForm.value.from;
+      formObject.from = this.searchForm.value.dest!;
+      formObject.dest = this.searchForm.value.from!;
     }
 
-    if (this.searchForm.valid && this.isPassengers && this.isDate) {
+    if (this.searchForm.valid && this.isPassengers && this.isDate && !this.isOneWay) {
       this.router.navigate(['booking/flights']);
-      console.log(formObject);
+      
+      this.ApiService.getFlight({
+        backDate: this.endDate,
+        forwardDate: this.startDate,
+        fromKey: formObject.from?.key,
+        toKey: formObject.dest?.key,
+      });
+
+      this.onDateChange();
+      this.setPassengers();
+
+      this.searchFlightsStateService.setSearchFlightsForm(formObject);
+    }
+    if (this.searchForm.valid && this.isPassengers && this.isDate && this.isOneWay) {
+      this.router.navigate(['booking/flights']);
+
+      this.ApiService.getFlight({
+        forwardDate: this.singleDate,
+        fromKey: formObject.from?.key,
+        toKey: formObject.dest?.key,
+      });
+
+      this.onDateChange();
+      this.setPassengers();
+
+      this.searchFlightsStateService.setSearchFlightsForm(formObject);
     }
   }
 
@@ -225,6 +297,54 @@ export class SearchFlightsComponent implements OnInit {
       if (this.singleDate) {
         this.isDate = true;
       } else this.isDate = false;
+    }
+  }
+
+  onDateChange() {
+    const startDate = this.searchForm.get('date.startDate')?.value;
+    const endDate = this.searchForm.get('date.endDate')?.value;
+
+    if (startDate && endDate) {
+      const startDateValue = new Date(startDate);
+      const endDateValue = new Date(endDate);
+
+      const dates: Date[] = [];
+      const currentDate = new Date(startDateValue);
+
+      const startDateOffset = new Date(startDateValue);
+      startDateOffset.setDate(startDateOffset.getDate() - 5);
+      while (startDateOffset < startDateValue) {
+        dates.push(new Date(startDateOffset));
+        startDateOffset.setDate(startDateOffset.getDate() + 1);
+      }
+
+      while (currentDate <= endDateValue) {
+        dates.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+
+      const endDateOffset = new Date(endDateValue);
+      endDateOffset.setDate(endDateOffset.getDate() + 1);
+      for (let i = 0; i < 5; i++) {
+        dates.push(new Date(endDateOffset));
+        endDateOffset.setDate(endDateOffset.getDate() + 1);
+      }
+
+      this.sliderService.setDates(dates);
+    }
+  }
+
+  setPassengers() {
+    this.sliderService.setPassengers(this.totalPassengers);
+  }
+
+  changeCalendarOnBookingPage() {
+    let triptype: string | undefined =
+      this.searchFlightsStateService.getSearchFlightsForm()?.tripType;
+    if (this.isBookingPage) {
+      if (triptype === 'oneWay') {
+        this.isOneWay = true;
+      } else this.isOneWay = false;
     }
   }
 }

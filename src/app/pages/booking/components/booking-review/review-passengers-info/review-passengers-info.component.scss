@@ -1,0 +1,19 @@
+.review-passengers {
+  padding: 20px 0px 20px 24px;
+  border-top: 1px solid rgba(225, 229, 235, 1);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  background-color: white;
+
+  &__name {
+    margin-bottom: 12px;
+  }
+
+  p{
+    padding-left: 32px;
+    margin-bottom: 4px;
+  }
+}
+

@@ -1,0 +1,23 @@
+<div class="review-fares">
+  <div class="review-fares__item" *ngFor="let item of fares">
+    <div class="review-fares__total-item">
+      <span>1 x {{ item.type }} Fare</span
+      ><span>{{ item.totalFlightPrice | currency : "EUR" : true }}</span>
+    </div>
+
+    <div class="review-fares__price-states">
+      <div class="review-fares__flex">
+        <span>First Fare</span><span>{{ item.firstPrice | currency : "EUR" : true }}</span>
+      </div>
+      <div class="review-fares__flex" *ngIf="isRoundWay">
+        <span>Back Fare</span><span>{{ item.backPrice | currency : "EUR" : true}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="review-fares__total-price review-fares__flex">
+  <span>TOTAL:</span
+  ><span class="review-fares__total-span">{{
+    totalPrice | currency : "EUR" : true
+  }}</span>
+</div>

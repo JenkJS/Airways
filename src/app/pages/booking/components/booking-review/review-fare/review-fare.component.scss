@@ -1,0 +1,48 @@
+@import "../../../../../../styles/abstracts/constants.scss";
+
+.review-fares {
+  padding: 24px 72px 0px 40px;
+
+  &__item {
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  &__total-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__price-states {
+    padding-left: 40px;
+  }
+
+  &__total-price {
+    border-top: 1px solid rgba(225, 229, 235, 1);
+    padding: 20px 72px 0px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+
+  &__total-span {
+    color: $color-primary;
+  }
+}

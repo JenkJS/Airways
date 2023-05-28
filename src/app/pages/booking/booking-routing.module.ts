@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookingComponent, BookingPassengersComponent, BookingJourneyComponent } from '../../pages/index';
+import {
+  BookingComponent,
+  BookingPassengersComponent,
+  BookingJourneyComponent,
+  BookingReviewComponent,
+} from '../../pages/index';
 
 const routes: Routes = [
   {
-    path: '', component: BookingComponent,
+    path: '',
+    component: BookingComponent,
     children: [
       { path: 'flights', component: BookingJourneyComponent },
       { path: 'passengers', component: BookingPassengersComponent },
-      // { path: 'review-payment', component: BookingReviewPaymentComponent },
-    ]
-  }
+      { path: 'review-payment', component: BookingReviewComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BookingRoutingModule { }
+export class BookingRoutingModule {}

@@ -1,0 +1,190 @@
+@import '../../../../../styles/abstracts/constants.scss';
+
+.booking__header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 22px 0;
+  .booking__header_description {
+    padding: 0 64.32px 0 40px;
+    display: flex;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #74767A;
+  }
+  .booking__header_title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+.recent-search__dates {
+    display: inline-block;
+    padding: 0 20px;
+    position: relative;
+
+  &::before, &::after {
+    background-color: #0090BD;
+    border-radius: 50%;
+    content: "";
+    height: 4px;
+    position: absolute;
+    top: calc(50% - 2px);
+    width: 4px;
+  }
+
+  &::before {
+    left: 10px;
+  }
+  &::after {
+    right: 10px;
+  }
+}
+
+.recent-search__passengers {
+  padding-right: 6.32px;
+}
+
+.recent-search__flights-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  padding: 0 16.18px;
+}
+
+.recent-search__icon {
+  padding-top: 1px;
+  vertical-align: middle;
+}
+
+.resent-serach__button-edit {
+  background-color: #F4F6F9;
+  color: $color-primary;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.resent-serach__control {
+  width: 255px;
+height: 56px;
+background: #F4F6F9;
+border-radius: 4px;
+border: 1.5px solid #CECECE;
+
+}
+
+.resent-search__panel {
+  max-width: $container-width;
+  margin: 0 auto;
+  margin-bottom: 48px;
+  
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    background-color: #F4F6F9;
+    border-radius: 4px;
+    border: 1.5px solid #CECECE;  
+  }
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    display: flex;
+    justify-content: flex-start;
+  }
+  ::ng-deep .mat-expansion-panel-content {
+    max-width: $container-width;
+    margin: 0 auto;
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 22px 26px 0;
+    form {
+      display: flex;
+      justify-content: space-between;
+
+      .field__destination, .field__departure {
+        width: 100%;
+        max-width: 255px;
+      }
+
+      .field__dates {
+        width: 100%;
+        max-width: 311px;
+      }
+
+      .field__passengers {
+        width: 100%;
+        max-width: 201px;
+      }
+    }
+  }
+
+}
+
+::ng-deep .ng-tns-c15-10 .ng-star-inserted {
+  display: flex;
+  justify-content: space-between;
+    &:hover {
+      background: rgba(0,0,0,.04);
+    } 
+}
+
+
+.passenger-counter_text {
+  font-size: 1.4rem;
+}
+
+::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background: none;
+}
+mat-option {
+
+  ::ng-deep .mdc-list-item__primary-text {
+    .passenger-option {
+      display: flex;
+      flex-direction: column;
+      .passenger-limit {
+        font-size: 1.4rem;
+        color: #74767A;
+      }
+    }
+  }
+
+}
+
+::ng-deep .mat-mdc-option.mat-mdc-option-active {
+  background: none;
+}
+.resent-serach__form {
+  .resent-search_form_field {
+    .input_country {
+      color: #CECECE;
+    }
+  }
+}
+
+.passenger-counter {
+  .counter-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 15px;
+    mat-icon {
+      font-size: 12px;
+      height: 12px;
+      width: 12px;
+    }
+  }
+}
+
+.field__passengers {
+  ::ng-deep .mat-mdc-select {
+     width: 0;
+   }
+}
+
+

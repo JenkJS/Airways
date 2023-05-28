@@ -1,1 +1,63 @@
-<p>shoping-cart works!</p>
+<div class="cart _container">
+  <div class="cart__wrapper">
+    <div class="cart__title">Cart</div>
+    <ul class="cart__column-names cart-column-names">
+      <li class="cart-column-names__item">No.</li>
+      <li class="cart-column-names__item">Flight</li>
+      <li class="cart-column-names__item">Type trip</li>
+      <li class="cart-column-names__item">Data & Time</li>
+      <li class="cart-column-names__item">Passengers</li>
+      <li class="cart-column-names__item">Price</li>
+    </ul>
+    <div class="cart__main-block">
+      <cart-item
+        (editEvent)="editItem($event)"
+        (deleteEvent)="deleteItem($event)"
+        (checkItemPrice)="checkItemsPrice($event)"
+        [cartItems]="flightsCart"
+      ></cart-item>
+
+      <div class="cart__add-item-and-total cart-border-bottom">
+        <button class="cart__primary-btn">+ Add new trip</button>
+        <div class="cart__total-wrapper">
+          <span class="cart__total-title">Total</span
+          ><span
+            class="cart__total-count"
+            [ngClass]="{ cartOldPrice: totalAfterDiscount }"
+            >{{ getTotalPrice() | currency : "EUR" : true }}</span
+          >
+          <span class="cart__total-count" *ngIf="totalAfterDiscount">{{
+            checkPromoCode() | currency : "EUR" : true
+          }}</span>
+        </div>
+      </div>
+      <div class="cart__panel-btns panel-btns-cart">
+        <div
+          class="panel-btns-cart__promo-input"
+          [ngClass]="{ emptyPromoInput: isPromoInputEmpty === true }"
+        >
+          <input
+            type="text"
+            placeholder="Promo Code"
+            [(ngModel)]="promoInputValue"
+          /><button class="cart__primary-btn" (click)="checkPromoCode()">
+            APPLY
+          </button>
+          <div *ngIf="isPromoInputEmpty === true" class="cart__field-error">
+            Please enter Promo Code
+          </div>
+          <div *ngIf="isPromoInvalid" class="cart__field-error">
+            Invalid promo code
+          </div>
+        </div>
+        <div class="panel-btns-cart__selected-and-payment-btn">
+          <span>{{ checkSelectedItems() }} selected</span>
+          <button>Payment</button>
+        </div>
+
+      </div>
+
+      <p class="promo">'promo'</p>
+    </div>
+  </div>
+</div>

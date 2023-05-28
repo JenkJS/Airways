@@ -1,5 +1,17 @@
-<form class="home-form" action="#" [formGroup]="searchForm">
-  <div class="home-form__type-of-trip" style="margin-bottom: 26px">
+<form
+  class="home-form"
+  action="#"
+  [formGroup]="searchForm"
+  [ngClass]="{
+    flexDirectionRow: isBookingPage === true,
+    widthFull: isBookingPage === true
+  }"
+>
+  <div
+    class="home-form__type-of-trip"
+    style="margin-bottom: 26px"
+    *ngIf="!isBookingPage"
+  >
     <mat-radio-group formControlName="tripType">
       <mat-radio-button
         color="primary"
@@ -18,44 +30,88 @@
   <div
     class="home-form__place"
     style="margin-bottom: 28px"
-    [ngClass]="{ flexReverse: isPlaceBlocksReverse }"
+    [ngClass]="{
+      flexReverse: isPlaceBlocksReverse,
+      flexDirectionRow: isBookingPage === true
+    }"
   >
-    <mat-form-field class="home-form__place-item" appearance="fill">
+    <mat-form-field
+      class="home-form__place-item"
+      appearance="fill"
+      [ngClass]="{
+        marginRight20: isBookingPage === true,
+        matFormWidth255px: isBookingPage === true
+      }"
+    >
       <mat-label>{{ namesOfLabels[0] }}</mat-label>
       <mat-select formControlName="from" disableRipple>
-        <mat-option *ngFor="let item of country" [value]="item" [value]="item"
+        <mat-option
+          *ngFor="let item of airports$ | async"
+          [value]="item"
+          [value]="item"
           ><span class="mr-10px home-form__place-span">{{ item.country }}</span>
           <span class="gray-bg home-form__place-span">
-            {{ item.country | slice : 0 : 3 | uppercase }}</span
+            {{ item.key | slice : 0 : 3 | uppercase }}</span
           >
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="home-form__place-item" appearance="fill">
+    <mat-form-field
+      class="home-form__place-item"
+      appearance="fill"
+      [ngClass]="{
+        matFormWidth255px: isBookingPage,
+        marginRight20: isBookingPage
+      }"
+    >
       <mat-label ng-switch-when="">{{ namesOfLabels[1] }}</mat-label>
       <mat-select formControlName="dest" disableRipple>
-        <mat-option *ngFor="let item of country" [value]="item"
+        <mat-option *ngFor="let item of airports$ | async" [value]="item"
           ><span class="mr-10px home-form__place-span">{{ item.country }}</span>
           <span class="gray-bg home-form__place-span">
-            {{ item.country | slice : 0 : 3 | uppercase }}</span
+            {{ item.key | slice : 0 : 3 | uppercase }}</span
           >
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <div class="home-form__place-reverse-btn" (click)="reversePlaceBlocks()">
+    <div
+      class="home-form__place-reverse-btn"
+      (click)="reversePlaceBlocks()"
+      *ngIf="!isBookingPage"
+    >
       <img src="./assets/home-page/btn-reverse.svg" alt="reverse-btn" />
     </div>
   </div>
 
-  <div class="home-form__params">
-    <div class="home-form__params-dates">
-      <div class="home-form__params-item" *ngIf="!isOneWay">
+  <div
+    class="home-form__params"
+    [ngClass]="{
+      widthFull: isBookingPage,
+      justifyCenter: isBookingPage
+    }"
+  >
+    <div
+      class="home-form__params-dates"
+      [ngClass]="{
+        marginRight20: isBookingPage,
+        widthFull: isBookingPage,
+        paramsFormFieldWidth: isBookingPage
+      }"
+    >
+      <div
+        class="home-form__params-item"
+        *ngIf="!isOneWay"
+        [ngClass]="{ flexWidthAuto: isBookingPage }"
+      >
         <mat-form-field
           appearance="fill"
           class="calendar"
           [formGroup]="searchForm.controls.date"
+          [ngClass]="{
+            errorBorderBottom: !isPassengers && wasPassOptionsBlockOpen,
+          }"
         >
           <mat-label>Date</mat-label>
           <mat-date-range-input
@@ -103,6 +159,7 @@
             formControlName="singleDate"
             matInput
             [matDatepicker]="datepicker"
+            (ngModelChange)="onDateChange()"
           />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle
@@ -252,7 +309,10 @@
     </div>
   </div>
 
-  <a class="home-form__submit-btn">
+  <a class="home-form__submit-btn" *ngIf="!isBookingPage">
+    <button (click)="formSubmit()">Search</button>
+  </a>
+  <a class="home-form__submit-booking" *ngIf="isBookingPage">
     <button (click)="formSubmit()">Search</button>
   </a>
 </form>

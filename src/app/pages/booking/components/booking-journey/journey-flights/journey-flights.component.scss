@@ -214,7 +214,32 @@
           color: #ffffff;
           cursor: pointer;
         }
+
+        .card-price__btn_edit {
+          background: #F4F6F9;
+          border: none;
+          color: $color-primary;
+          width: 43px;
+          height: 28px;
+          padding: 4px 8px;
+        }
+      }
+
+      .trip-selected {
+        border: none;
+        .price-wrapper {
+          .seats-availabel {
+            display: none;
+          }
+          .price-fare {
+            display: none;
+          }
+          .price-value {
+            color: #000000;
+          }
+        }
       }
     }
   }
 }
+

@@ -1,0 +1,85 @@
+<div class="booking-rewiew">
+  <div class="booking-rewiew__title">
+    <img
+      src="./assets/images/summaryIcon.svg"
+      alt="Summary logo"
+    />
+    <h2>Summary</h2>
+  </div>
+  <div class="booking-rewiew__wrapper">
+    <div class="booking-rewiew__forward booking-rewiew__card">
+      <div class="booking-rewiew__flight">
+        <div class="booking-rewiew__flight-info">
+          <span class="booking-rewiew__flight-number">{{
+            thereFlight.flightNumber
+          }}</span>
+          <span class="booking-rewiew__from-to"
+            ><span>{{ thereFlight.form.city }}</span> —
+            <span>{{ thereFlight.to.city }}</span></span
+          >
+        </div>
+        <div class="booking-rewiew__date-info">
+          <span class="booking-rewiew__date">{{
+            thereFlight.landingDate | date
+          }}</span
+          ><span class="booking-rewiew__flight-time"
+            >{{ getFlightTime(thereFlight.takeoffDate) }} —
+            {{ getFlightTime(thereFlight.landingDate) }}
+          </span>
+        </div>
+      </div>
+      <div class="booking-rewiew__passengers">
+        <app-review-passengers-info
+          *ngFor="let item of passengers; let l = last"
+          [ngClass]="{ BottomBorderRadius8px: l }"
+          [passengers]="item"
+        ></app-review-passengers-info>
+      </div>
+    </div>
+    <div *ngIf="isRoundTrip" class="booking-rewiew__back booking-rewiew__card">
+      <div class="booking-rewiew__flight">
+        <div class="booking-rewiew__flight-info">
+          <span class="booking-rewiew__flight-number">{{
+            backFlight.flightNumber
+          }}</span>
+          <span class="booking-rewiew__from-to"
+            ><span>{{ backFlight.form.city }}</span> —
+            <span>{{ backFlight.to.city }}</span></span
+          >
+        </div>
+        <div class="booking-rewiew__date-info">
+          <span class="booking-rewiew__date">{{
+            backFlight.landingDate | date
+          }}</span
+          ><span class="booking-rewiew__flight-time"
+            >{{ getFlightTime(backFlight.takeoffDate) }} —
+            {{ getFlightTime(backFlight.landingDate) }}
+          </span>
+        </div>
+      </div>
+      <app-review-passengers-info
+        *ngFor="let item of passengers"
+        [passengers]="item"
+      ></app-review-passengers-info>
+    </div>
+  </div>
+  <div class="booking-rewiew__fares-left-position">
+    <div class="booking-rewiew__fares booking-rewiew__card">
+      <app-review-fare
+        [isRoundWay]="isRoundTrip"
+        [totalPrice]="totalPrice"
+        [fares]="fares"
+      ></app-review-fare>
+    </div>
+  </div>
+  <div class="booking-rewiew-btns">
+    <button class="booking-rewiew-btns__button booking-rewiew-btns__back">
+      Back
+    </button>
+    <button class="booking-rewiew-btns__button booking-rewiew-btns__add"
+    routerLink="/cart"
+    (click)="addInCart()">
+      Add to order cart
+    </button>
+  </div>
+</div>

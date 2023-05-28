@@ -15,7 +15,8 @@ import { HomeRoutingModule } from './home-routing.module';
     HomeRoutingModule
   ],
   exports: [
-    HomeComponent
+    HomeComponent,
+    SearchFlightsComponent
   ],
 })
 export class HomeModule {}

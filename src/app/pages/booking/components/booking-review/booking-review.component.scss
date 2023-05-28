@@ -1,0 +1,133 @@
+@import "../../../../../styles/abstracts/constants.scss";
+
+.booking-rewiew {
+  padding: 0px 0px 40px 0px;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h2 {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: $color-primary;
+  }
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 28px;
+
+    h2 {
+      margin-left: 15px;
+    }
+  }
+
+  &__card {
+    border: 1px solid rgba(225, 229, 235, 1);
+    border-top: 4px solid $color-primary;
+    border-radius: 8px;
+    width: 551px;
+    padding-bottom: 10px;
+    background-color: #fff;
+  }
+
+  &__flight {
+    background-color: rgba(241, 243, 246, 1);
+    border-radius: 8px;
+    padding: 22px 0px 22px 24px;
+  }
+
+  &__flight-number {
+    color: $color-primary;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    margin-right: 20px;
+  }
+
+  &__flight-info {
+    margin-bottom: 8px;
+  }
+
+  &__from-to {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  &__date-info {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  &__date {
+    margin-right: 36px;
+  }
+
+  &__fares {
+    margin-top: 30px;
+    border-top: 0 !important;
+  }
+
+  &__fares-left-position {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 60px;
+  }
+}
+
+.booking-rewiew-btns {
+  display: flex;
+  justify-content: flex-end;
+
+  &__button {
+    padding: 20px 32px;
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: $color-primary;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s ease all;
+  }
+
+  &__back {
+    background: none !important;
+
+    &:hover{
+      background:rgb(229, 231, 235) !important;
+    }
+  }
+
+  &__buy {
+    color: #fff;
+    background-color: $color-primary;
+
+    &:hover{
+      background:rgb(49, 111, 192) !important;
+    }
+  }
+
+  &__add {
+    margin: 0px 40px;
+    background-color: none;
+    border: 1px solid $color-primary;
+
+    &:hover{
+      background:rgb(183, 186, 190) !important;
+      color: $color-header;
+    }
+  }
+}

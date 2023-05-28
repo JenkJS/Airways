@@ -1,55 +1,67 @@
-<div class="flight-card">
-  <div class="card-wrapper">
-    <div class="card-body">
-      <div class="card-info">
-        <div class="card-info__cols">
-          <div class="card-info__col">
-            <div class="flight-departure">
-              <span class="departure-date">Wed, 1 Mar 2023</span>
-              <div class="departure-time">
-                <span class="departure-time_hour">8:40</span>
-                <span class="departure-time_utc">UTC +0</span>
+
+  <div class="flight-card"
+       *ngIf="isSelectedFlight(flight)">
+    <div class="card-wrapper">
+      <div class="card-body">
+        <div class="card-info">
+          <div class="card-info__cols">
+            <div class="card-info__col">
+              <div class="flight-departure">
+                <span class="departure-date">{{flight.takeoffDate | date: 'EEE, d  MMM y'}}</span>
+                <div class="departure-time">
+                  <span class="departure-time_hour">{{flight.takeoffDate | date: 'h:mm'}}</span>
+                  <span class="departure-time_utc">{{flight.takeoffDate | date: 'O'}}</span>
+                </div>
+                <span class="departure-city">{{flight.form.name}}</span>
               </div>
-              <span class="departure-city">Dublin</span>
-            </div>
-      
-            <div class="flight-duration">
-              <div class="duration-time">2h 50m</div>
-              <div class="duration-img">
-                <span class="duration-icon">
-                  <img src="./assets/booking/plane-duration.svg" alt="Plane Duration">
-                </span>
+  
+              <div class="flight-duration">
+                <div class="duration-time">{{formatTime(flight.timeMins)}}</div>
+                <div class="duration-img">
+                  <span class="duration-icon">
+                    <img src="./assets/booking/plane-duration.svg" alt="Plane Duration">
+                  </span>
+                </div>
+                <div class="duration-label">Direct</div>
               </div>
-              <div class="duration-label">Direct</div>
-            </div>
-      
-            <div class="flight-arrival">
-              <span class="arrival-date">Wed, 1 Mar 2023</span>
-              <div class="arrival-time">
-                <span class="arrival-time_utc">UTC +1</span>
-                <span class="arrival-time_hour">12:00</span>
+  
+              <div class="flight-arrival">
+                <span class="arrival-date">{{flight.landingDate | date: 'EEE, d  MMM y'}}</span>
+                <div class="arrival-time">
+                  <span class="arrival-time_utc">{{flight.landingDate | date: 'O'}}</span>
+                  <span class="arrival-time_hour">{{flight.landingDate | date: 'h:mm'}}</span>
+                </div>
+                <span class="arrival-city">{{flight.to.name}}</span>
               </div>
-              <span class="arrival-city">Warsaw Modlin</span>
             </div>
+            <div class="card-flight-label">Flight no.</div>
+  
+            <div class="card-flight-num">{{flight.flightNumber}}</div>
           </div>
-          <div class="card-flight-label">Flight no.</div>
+  
+        </div>
     
-          <div class="card-flight-num">FR 1925</div>
-        </div>
-  
-      </div>
-  
-      <div class="card-price">
-        <div class="flight-price">
-          <div class="price-wrapper">
-            <span class="seats-availabel">100 seats available</span>
-            <span class="price-fare">Price</span>
-            <span class="price-value">€146.70</span>
-  
+        <div class="card-price"
+             [class.trip-selected]="flight.isSelected">
+          <div class="flight-price">
+            <div class="price-wrapper">
+              <span class="seats-availabel">{{flight.seats.avaible}} seats available</span>
+              <span class="price-fare">Price</span>
+              <span class="price-value">{{flight.price.usd | currency}} </span>
+              <!-- <span class="price-value">
+                <ng-container *ngIf="getCurrentCurrency() === 'eur'">€{{flight.price[getCurrentCurrency()] | number: '1.2-2'}}</ng-container>
+                <ng-container *ngIf="getCurrentCurrency() === 'usd'">${{flight.price[getCurrentCurrency()] | number: '1.2-2'}}</ng-container>
+                <ng-container *ngIf="getCurrentCurrency() === 'rub'">₽{{flight.price[getCurrentCurrency()] | number: '1.2-2'}}</ng-container>
+                <ng-container *ngIf="getCurrentCurrency() === 'pln'">zł{{flight.price[getCurrentCurrency()] | number: '1.2-2'}}</ng-container>
+              </span> -->
+            </div>
           </div>
+          <button class="card-price__btn"
+                  [ngClass]="{'card-price__btn_edit': flight.isSelected}"
+                  (click)="onSelectTrip(flight)">
+                  {{ flight.isSelected ? 'Edit' : 'Select' }}
+        </button>
         </div>
-        <button class="card-price__btn">Select</button>
       </div>
     </div>
   </div>
-</div>

@@ -1,0 +1,129 @@
+.cart-items {
+  display: flex;
+  align-items: center;
+  padding: 46px 0px;
+  border-bottom: 1px solid #e1e5eb;
+
+  li {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: 0.5px;
+    margin-right: 28px;
+  }
+
+  li:nth-child(1) {
+    margin-right: 0px;
+  }
+
+  li:nth-child(2) {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    color: rgba(0, 144, 189, 1);
+    width: 85px;
+  }
+
+  li:nth-child(3) {
+    width: 194px;
+  }
+
+  li:nth-child(4) {
+    width: 102px;
+  }
+
+  li:nth-child(5) {
+    width: 260px;
+  }
+
+  li:nth-child(6) {
+    width: 106px;
+    margin-right: 0;
+  }
+
+  li:nth-child(7) {
+    flex: 1 0 auto;
+  }
+
+  li:nth-child(8) {
+    margin-right: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  &__btn-edit {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: 0.4s all ease;
+    padding: 5px 15px;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: rgb(204, 202, 202);
+    }
+  }
+
+  &__btn-panel {
+    position: relative;
+  }
+
+  &__close-edit-btns {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: none;
+    z-index: 3;
+  }
+}
+
+.edit-btns-cart {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+
+    right: -85px;
+    top: 25px;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    z-index: 4;
+
+    button {
+      width: 93px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      transition: 0.4s all ease;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: left;
+
+      &:hover {
+        background-color: rgb(216, 215, 215);
+      }
+    }
+  }
+
+  &__center-line {
+    height: 1px;
+    width: 100%;
+    background: rgba(225, 229, 235, 1);
+  }
+}
+
+.dateAndTime {
+
+  white-space: nowrap
+}
+
+.dateWrapper{
+  display: flex;
+}

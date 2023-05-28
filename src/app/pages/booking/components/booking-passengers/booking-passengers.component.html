@@ -95,7 +95,8 @@
             src="./assets/booking/booking-passengers/selected.svg"
             alt=""
           />
-          <span [ngClass]="{ bookingPassengersLabelSelected: item[3] === 'male' }"
+          <span
+            [ngClass]="{ bookingPassengersLabelSelected: item[3] === 'male' }"
             >Male</span
           ></label
         >
@@ -117,7 +118,8 @@
             src="./assets/booking/booking-passengers/selected.svg"
             alt=""
           />
-          <span [ngClass]="{ bookingPassengersLabelSelected: item[3] === 'female' }"
+          <span
+            [ngClass]="{ bookingPassengersLabelSelected: item[3] === 'female' }"
             >Female</span
           ></label
         >
@@ -175,7 +177,10 @@
   </div>
 
   <div>
-    <div class="booking-passengers-contact__title booking-passengers__title" style="margin-top: 48px">
+    <div
+      class="booking-passengers-contact__title booking-passengers__title"
+      style="margin-top: 48px"
+    >
       <img src="./assets/booking/booking-passengers/contact.svg" alt="" />
       <span>Contact details</span>
     </div>
@@ -189,7 +194,7 @@
         [ngClass]="{
           borderError: isNoValid && !contactForm.controls.code.value
         }"
-        class="home-form__place-item"
+        class="home-form__place-item noBorder"
         appearance="fill"
         [formGroup]="contactForm"
       >
@@ -237,9 +242,16 @@
       </mat-form-field>
     </div>
   </div>
-
-  <div class="booking-passengers__btns">
-    <button>Back</button>
-    <button type="submit" class="booking-passengers__continue">Continue</button>
-  </div>
 </form>
+
+<div class="booking__buttons">
+  <button class="btn btn-transparent" [routerLink]="['/booking/flights']">
+    Back
+  </button>
+  <button
+    class="btn"
+    (click)="submitForm()"
+  >
+    Continue
+  </button>
+</div>

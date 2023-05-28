@@ -7,7 +7,7 @@
     color: $color-primary;
     line-height: 2.8rem;
     margin-bottom: 2.5rem;
-    
+
     .header__title-icon {
       margin-right: 1.4rem;
     }
@@ -31,3 +31,39 @@
   }
 }
 
+.test{
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: blue;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+.no-flights{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 72px 0;
+  .no-flights_text{
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #b0b3b8;
+  }
+  .no-flights_icon {
+    svg {
+      height: 82px;
+      width: 82px;
+      fill:#b0b3b8;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

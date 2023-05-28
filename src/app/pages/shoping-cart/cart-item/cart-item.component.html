@@ -1,0 +1,54 @@
+<ul *ngFor="let item of cartItems; let i = index" class="cart-items">
+  <li>
+    <mat-checkbox
+      [id]="'cartCheckbox_' + i"
+      (change)="onCheckItemPrice($event)"
+      checked="true"
+      color="primary"
+    ></mat-checkbox>
+  </li>
+  <li>{{ item.numberFlight }}</li>
+  <li>
+    <p>{{ item.flight.oneWay }}</p>
+    <p *ngIf="item.flight.roundTrip">{{ item.flight.roundTrip }}</p>
+  </li>
+  <li>{{ item.type }}</li>
+  <li class="dateWrapper" style="display: flex; flex-direction: column;">
+    <p>
+      <span class="dateAndTime"
+        >{{ item.dataAndTime.fromDate | date : " d MMM, y" }}, </span
+      >
+      <span class="dateAndTime">{{ item.dataAndTime.fromTime }}</span>
+    </p>
+    <p *ngIf="item.type === 'Round Trip'">
+      <span class="dateAndTime"
+        >{{ item.dataAndTime.backDate | date : " d MMM, y" }}, </span
+      >
+      <span class="dateAndTime">{{ item.dataAndTime.backTime }}</span>
+    </p>
+  </li>
+  <li>
+    <p *ngIf="item.passengers.adult">{{ item.passengers.adult }} x Adult</p>
+    <p *ngIf="item.passengers.child">{{ item.passengers.child }} x Child</p>
+    <p *ngIf="item.passengers.infant">{{ item.passengers.infant }} x Infant</p>
+  </li>
+  <li>{{ item.price | currency : "EUR" : true }}</li>
+  <li class="cart-items__btn-panel">
+    <button class="cart-items__btn-edit" (click)="item.isBtnPanelOpen = true">
+      <img src="./assets/images/edit.svg" alt="edit" />
+    </button>
+    <div class="edit-btns-cart" *ngIf="item.isBtnPanelOpen">
+      <div class="edit-btns-cart__wrapper">
+        <button (click)="onDelete(i)">Delete</button>
+        <div class="edit-btns-cart__center-line"></div>
+        <button (click)="onEdit(i)">Edit</button>
+      </div>
+    </div>
+  </li>
+
+  <div
+    *ngIf="item.isBtnPanelOpen"
+    (click)="item.isBtnPanelOpen = false"
+    class="cart-items__close-edit-btns"
+  ></div>
+</ul>

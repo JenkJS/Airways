@@ -36,8 +36,7 @@ export class TokenService {
           this.localStorage.setItem('apiToken', token);
           this.localStorage.setItem('apiTokenExpirationTime', expirationTime.toString())
           
-          console.log('Token:', token); 
-          console.log(`Token expires in ${expiresIn} seconds`);
+
           return token;
         })
       );
